@@ -1,0 +1,21 @@
+{
+  "author": "alexstrat",
+  "name": "kadoh-twitter",
+  "description": "Example application for KadOH that looks like Twitter..uh?",
+  "version": "0.0.0",
+  "homepage": "https://github.com/alexstrat/kadoh-twitter",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/alexstrat/kadoh-twitter.git"
+  },
+  "main": "./lib/index.js",
+  "engines": {
+    "node": ">=0.4.12"
+  },
+  "dependencies": {
+    "kadoh"      : "https://github.com/jinroh/kadoh/tarball/master"
+  , "browserify" : ">=1.12.1"
+  , "tagify"     : "latest"
+    },
+  "devDependencies": {}
+}
