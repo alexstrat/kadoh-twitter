@@ -13,9 +13,10 @@
     "node": ">=0.4.12"
   },
   "dependencies": {
-    "kadoh"      : "https://github.com/jinroh/kadoh/tarball/master"
-  , "browserify" : ">=1.12.1"
-  , "tagify"     : "latest"
+    "kadoh"        : "https://github.com/jinroh/kadoh/tarball/master"
+  , "browserify"   : ">=1.12.1"
+  , "twitter-text" : "~1.4"
+  , "tagify"       : "latest"
     },
   "devDependencies": {}
 }
