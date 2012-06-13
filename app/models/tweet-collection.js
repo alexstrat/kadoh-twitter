@@ -20,6 +20,10 @@ module.exports = Backbone.Collection.extend({
 
   model: Tweet,
 
+  comparator: function(tweet) {
+    return tweet.getDate();
+  },
+
   sync: function(method, collection, options) {
     if(method !== 'read')
       options.error(new Error('impossible'));
