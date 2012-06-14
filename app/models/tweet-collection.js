@@ -14,7 +14,7 @@ module.exports = Backbone.Collection.extend({
       else if(url.hashtag !== undefined) this.url = '/hashtag/'+url.hashtag;
       else if(url.date    !== undefined) this.url = '/time/'+url.date;
     }
-    if(!options.TwitterNode)
+    if(options && options.TwitterNode)
       this.TwitterNode = options.TwitterNode;
   },
 

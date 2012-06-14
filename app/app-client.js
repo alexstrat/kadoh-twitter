@@ -1,16 +1,25 @@
-var browserijade = require("browserijade");
-window.$ = require('jquery-browserify');
+var $ = require('jquery-browserify');
+require('backbone-browserify').setDomLibrary($);
+
 window.KadOH = require('kadoh');
 
-window.Tweet = require('./models/tweet');
-window.TweetCollection = require('./models/tweet-collection');
+var Tweet = require('./models/tweet');
+var TweetView = require('./views/tweet');
+var TweetCollection = require('./models/tweet-collection');
+
 console.log('bar');
 
 $(function() {
-  $('#tweets').append(browserijade('tweet',{
+
+  var t = new Tweet({
     id : 'tweet-1',
     author : 'alex',
     text : 'j apporte mon grand soutien a Jinroh #foo #bar',
-    date : 'March 1st 2012',
-    hashtags : ['foo', 'bar']} ));
+    date : 'March 1st 2012'});
+
+  var v = new TweetView({model : t});
+
+  v.render();
+
+  $('#tweets').append(v.$el);
 });

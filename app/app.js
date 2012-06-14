@@ -10,20 +10,21 @@ var browserify = require("browserify"),
 var transport = 'simudp';
 
 //client side javascript
-var bundle = browserify({cache : false, debug : true})
-             .use(browserijade(__dirname + "/views/templates",
-                ['index.jade'], {debug : false}))
-             .use(tagify.flags([transport, 'lawnchair']))
-             ;
+var new_bundle = function(transport) {
+  return browserify({cache : false, debug : true})
+         .use(browserijade(__dirname + "/views/templates",
+            ['index.jade'], {debug : false}))
+         .use(tagify.flags([transport, 'lawnchair']))
+         .addEntry(__dirname + '/app-client.js')
+         .bundle();  
+}
 
 //connect application
 var app = connect.createServer()
                  .use('/app.js', function(req, res) {
-                    bundle.addEntry(__dirname + '/app-client.js');
-                    
                     res.statusCode = 200;
                     res.setHeader('content-type', 'text/javascript');
-                    res.end(bundle.bundle());
+                    res.end(new_bundle(transport));
                  })
                  .use(connect.static(__dirname + '/dist'))
                  .use('/', function(req, res) {

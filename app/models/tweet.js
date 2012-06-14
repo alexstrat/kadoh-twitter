@@ -9,7 +9,7 @@ var twttr = require('twitter-text');
 module.exports = Backbone.Model.extend({
 
   initialize: function(attr, options) {
-    if(!options.TwitterNode)
+    if(options && options.TwitterNode)
       this.TwitterNode = options.TwitterNode;
   },
 
@@ -25,8 +25,13 @@ module.exports = Backbone.Model.extend({
     return this.get('date');
   },
 
+  setHashTags: function() {
+    var hashtags = twttr.extractHashtags(this.getText());
+    this.set('hashtags', hashtags);
+  },
+  
   getHashTags: function() {
-    return twttr.txt.extractHashtags(this.getText());
+    return this.get('hashtags');
   },
 
   urlRoot: '/tweet',
