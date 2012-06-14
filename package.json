@@ -15,8 +15,11 @@
   "dependencies": {
     "kadoh"        : "https://github.com/jinroh/kadoh/tarball/master"
   , "browserify"   : ">=1.12.1"
+  , "connect"          : "~2.0"
   , "backbone-browserify"   : "*"
   , "jquery-browserify"   : "*"
+  , "browserijade"   : "*"
+  , "jade"   : "*"
   , "twitter-text" : "~1.4"
   , "tagify"       : "latest"
     },

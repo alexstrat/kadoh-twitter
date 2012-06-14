@@ -1,0 +1,14 @@
+!!!5
+html(lang="en")
+    head
+      title KadOH-Twitter
+      script(src='/app.js')
+    body
+      h1 This is KadOH-Twitter
+      case transport
+        when 'simudp'
+          h2 You are backed by udp
+        when 'xmpp'
+          h2 You are backed by xmpp
+    #tweets
+

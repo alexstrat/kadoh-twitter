@@ -1,4 +1,4 @@
-var Backbone = require('backbone');
+var Backbone = require('backbone-browserify');
 var twttr = require('twitter-text');
 
 /**

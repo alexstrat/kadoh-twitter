@@ -1,4 +1,4 @@
-var Backbone = require('backbone');
+var Backbone = require('backbone-browserify');
 var Tweet = require('./tweet');
 
 /**
@@ -32,7 +32,7 @@ module.exports = Backbone.Collection.extend({
                .get(collection.url)
                .addProgress(function(tweets) {
                  collection.add(tweets);
-                 
+
                  if(options.progress)
                   options.progress(collection, tweets);
                })
