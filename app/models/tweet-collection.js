@@ -32,6 +32,9 @@ module.exports = Backbone.Collection.extend({
                .get(collection.url)
                .addProgress(function(tweets) {
                  collection.add(tweets);
+                 
+                 if(options.progress)
+                  options.progress(collection, tweets);
                })
                .then(options.success, options.error);
   }
