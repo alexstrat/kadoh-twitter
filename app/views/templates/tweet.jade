@@ -1,8 +1,9 @@
-.author #{author}
-.date #{date}
+.head
+  span.author #{author}
+  | &nbsp;wrote on&nbsp;
+  span.date #{date.toUTCString()}
 .text 
   p #{text}
-.hashtag
-  ul
-    each tag in hashtags
-      li #{tag}
+ul.hashtag
+  each tag in hashtags
+    li #{tag}
