@@ -7,7 +7,7 @@ var Tweet = require('./tweet');
  */
 module.exports = Backbone.Collection.extend({
   initialize: function(models, options) {
-    if(options.url) {
+    if(options && options.url) {
       var url = options.url;
       if(typeof url === 'string') this.url = url;
       else if(url.author  !== undefined) this.url = '/author/'+url.author;
@@ -29,7 +29,7 @@ module.exports = Backbone.Collection.extend({
       options.error(new Error('impossible'));
 
     return this.TwitterNode
-               .get(collection.url)
+               .get(options.url || collection.url)
                .addProgress(function(tweets) {
                  collection.add(tweets);
 

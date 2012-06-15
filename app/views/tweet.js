@@ -15,6 +15,6 @@ module.exports = backbone.View.extend({
 
     var html = browserijade('tweet', this.model.attributes);
     this.$el.html(html);
+    return this;
   }
-
 });
