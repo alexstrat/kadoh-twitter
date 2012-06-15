@@ -8,8 +8,8 @@ var TweetView = require('./views/tweet');
 var TweetCollection = require('./models/tweet-collection');
 var TweetForm = require('./views/tweet-form');
 var TimeLine = require('./views/timeline')
+var Connection = require('./views/connection')
 
-console.log('bar');
 
 $(function() {
 
@@ -21,7 +21,9 @@ $(function() {
 
   var v = new TimeLine({collection : t});
   var f = new TweetForm();
+  var c = new Connection();
 
+  c.render();
   f.render();
   v.render();
   f.on('submit', function(tweet) {
@@ -33,7 +35,8 @@ $(function() {
       f.render();
     },500);
   });
-  $('body').append(f.$el)
+  $('body').append(c.$el)
+           .append(f.$el)
            .append(v.$el);
 
   setTimeout(function() {
