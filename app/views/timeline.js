@@ -16,7 +16,7 @@ module.exports =  backbone.View.extend({
     this.$el.empty();
     this.collection.forEach(function(tweet) {
       var view = new TweetView({model : tweet});
-      that.$el.append(view.render().$el);
+      that.$el.prepend(view.render().$el);
     });
     return this;
   },
@@ -24,8 +24,8 @@ module.exports =  backbone.View.extend({
   add: function(tweet, collection, options) {
     var view = new TweetView({model : tweet}).render();
     if(options.index === 0)
-      this.$el.prepend(view.$el);
+      this.$el.append(view.$el);
     else
-      this.$('>'+view.tagName+':nth-child('+options.index+')').after(view.$el);
+      this.$('>'+view.tagName+':nth-child('+(collection.length-options.index)+')').before(view.$el);
   }
 });
