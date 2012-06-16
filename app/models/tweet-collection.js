@@ -14,8 +14,8 @@ module.exports = Backbone.Collection.extend({
       else if(url.hashtag !== undefined) this.url = '/hashtag/'+url.hashtag;
       else if(url.date    !== undefined) this.url = '/time/'+url.date;
     }
-    if(options && options.TwitterNode)
-      this.TwitterNode = options.TwitterNode;
+    if(options && options.twitterNode)
+      this.twitterNode = options.twitterNode;
   },
 
   model: Tweet,
@@ -28,7 +28,7 @@ module.exports = Backbone.Collection.extend({
     if(method !== 'read')
       options.error(new Error('impossible'));
 
-    return this.TwitterNode
+    return this.twitterNode
                .get(options.url || collection.url)
                .addProgress(function(tweets) {
                  collection.add(tweets);

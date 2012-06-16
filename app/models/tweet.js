@@ -9,8 +9,8 @@ var twttr = require('twitter-text');
 module.exports = Backbone.Model.extend({
 
   initialize: function(attr, options) {
-    if(options && options.TwitterNode)
-      this.TwitterNode = options.TwitterNode;
+    if(options && options.twitterNode)
+      this.twitterNode = options.twitterNode;
   },
 
   getAuthor: function() {
@@ -31,6 +31,7 @@ module.exports = Backbone.Model.extend({
   },
   
   getHashTags: function() {
+    this.get('hashtags') || this.setHashTags();
     return this.get('hashtags');
   },
 
@@ -40,10 +41,10 @@ module.exports = Backbone.Model.extend({
     if(method !== 'create')
       options.error(new Error('impossible'));
 
-    return this.TwitterNode
+    return this.twitterNode
                .post(tweet.getText(),
                      tweet.getHashTags(),
-                     tweet.getAuthor(), 
+                     tweet.getAuthor(),
                      tweet.getDate())
                .pipe(function() {
                 return {

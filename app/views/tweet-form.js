@@ -1,6 +1,6 @@
-var backbone = require('backbone-browserify'),
-    Tweet = require('../models/tweet')
-    browserijade = require("browserijade");
+var backbone = require('backbone-browserify');
+var Tweet = require('../models/tweet');
+var browserijade = require("browserijade");
 
 module.exports = backbone.View.extend({
 
@@ -32,5 +32,12 @@ module.exports = backbone.View.extend({
   freeze: function() {
     this.$('form>textarea').attr("disabled", "disabled");
     this.$('form>button').attr("disabled", "disabled");
+    return this;
+  },
+
+  unfreeze: function() {
+    this.$('form>textarea').removeAttr("disabled");
+    this.$('form>button').removeAttr("disabled");
+    return this;
   }
 });

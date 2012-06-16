@@ -3,6 +3,13 @@ html(lang="en")
     head
       title KadOH-Twitter
       script(src='/app.js')
+      case transport
+        when 'test'
+          script(src='/init-test.js')
+        when 'simudp'
+          script(src='/init-udp.js')
+        when 'xmpp'
+          script(src='/init-xmpp.js')
     body
       h1 This is KadOH-Twitter
       case transport

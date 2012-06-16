@@ -4,7 +4,8 @@ var backbone = require('backbone-browserify'),
 module.exports =  backbone.View.extend({
 
   initialize: function() {
-    this.collection.on('add', this.add, this);
+    if(this.collection)
+      this.bindTo(this.collection);
   },
   
   id : 'timeline',
@@ -12,12 +13,15 @@ module.exports =  backbone.View.extend({
 
   render: function() {
     var that = this;
-
     this.$el.empty();
-    this.collection.forEach(function(tweet) {
-      var view = new TweetView({model : tweet});
-      that.$el.prepend(view.render().$el);
-    });
+
+    if(this.collection) {
+      this.collection.forEach(function(tweet) {
+        var view = new TweetView({model : tweet});
+        that.$el.prepend(view.render().$el);
+      });
+    }
+
     return this;
   },
 
@@ -27,5 +31,29 @@ module.exports =  backbone.View.extend({
       this.$el.append(view.$el);
     else
       this.$('>'+view.tagName+':nth-child('+(collection.length-options.index)+')').before(view.$el);
+    return this;
+  },
+
+  bindTo: function(collection) {
+    this.collection = collection;
+    this.collection.on('add', this.add, this);
+    return this;
+  },
+
+  //bad overriding
+  unbind: function() {
+    if(this.collection) {
+      this.collection.off('add', this.add);
+      delete this.collection;
+    }
+    return this;
+  },
+
+  setLoading: function() {
+    //display a spin
+  },
+
+  unsetLoading: function() {
+    //un-display a spin
   }
 });
