@@ -8,6 +8,8 @@ module.exports =  backbone.View.extend({
       this.bindTo(this.collection);
   },
   
+  className : 'five columns centered',
+
   id : 'timeline',
   tagName : 'div',
 

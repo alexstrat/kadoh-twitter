@@ -9,16 +9,17 @@ var Collection = require('../models/tweet-collection');
 module.exports = Backbone.Router.extend({
 
   initialize: function() {
+    var that = this;
     //init a connection view
     this.connectionView = new Connection();
-    $('body').append(this.connectionView
+    $('body>.container').append(this.connectionView
                          .render()
                          .$el);
     this.connectionView.on('connection', this.onConnect, this);
 
     //init a tweet-form view
     this.tweetForm = new TweetForm();
-    $('body').append(this.tweetForm
+    $('body>.container').append(this.tweetForm
                          .render()
                          .freeze()
                          .$el);
@@ -26,14 +27,20 @@ module.exports = Backbone.Router.extend({
 
     //init a timeline view
     this.timeline = new Timeline();
-    $('body').append(this.timeline
+    $('body>.container').append(this.timeline
                          .render()
                          .$el);
+
+    //routing
+    $('body').on('click', 'a[rel=external]', function(e) {
+      that.navigate($(this).attr("href"), {trigger : true});
+      e.preventDefault();
+    });
   },
 
 
   routes: {
-    'user/:user' : 'navigateToUser',
+    'author/:user' : 'navigateToUser',
     'time/:time' : 'navigateToTime',
     'hashtag/:hashtag' : 'navigateToHashTag'
   },

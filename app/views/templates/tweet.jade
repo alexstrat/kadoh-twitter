@@ -1,9 +1,11 @@
 .head
-  span.author #{author}
+  a.author(href='/author/'+author, rel='external') #{author}
   | &nbsp;wrote on&nbsp;
   span.date #{date.toUTCString()}
 .text 
   p #{text}
-ul.hashtag
-  each tag in hashtags
-    li #{tag}
+- if(hashtags.length > 0)
+  ul.hashtag.breadcrumbs
+   each tag in hashtags
+     li
+       a(href='/hashtag/'+tag, rel='external') #{tag}

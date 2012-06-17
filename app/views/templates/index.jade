@@ -2,6 +2,7 @@
 html(lang="en")
     head
       title KadOH-Twitter
+      link(rel='stylesheet', href='/stylesheets/foundation.css')
       script(src='/app.js')
       case transport
         when 'test'
@@ -11,11 +12,10 @@ html(lang="en")
         when 'xmpp'
           script(src='/init-xmpp.js')
     body
-      h1 This is KadOH-Twitter
-      case transport
-        when 'simudp'
-          h2 You are backed by udp
-        when 'xmpp'
-          h2 You are backed by xmpp
-    #tweets
-
+      .container
+        h1 This is KadOH-Twitter
+        case transport
+          when 'simudp'
+            h2 You are backed by udp
+          when 'xmpp'
+            h2 You are backed by xmpp
