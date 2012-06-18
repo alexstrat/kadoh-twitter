@@ -39,10 +39,12 @@ module.exports =  backbone.View.extend({
 
   add: function(tweet, collection, options) {
     var view = new TweetView({model : tweet}).render();
+    
     if(options.index === 0)
       this.$tweets.append(view.$el);
     else
-      this.$tweets.find('>'+view.tagName+':nth-child('+(collection.length-options.index)+')').before(view.$el);
+      this.$tweets.find('>'+view.tagName+':nth-last-child('+options.index+')').before(view.$el);
+    
     return this;
   },
 
