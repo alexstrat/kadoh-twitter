@@ -5,6 +5,7 @@ var TweetForm = require('../views/tweet-form');
 var Timeline = require('../views/timeline');
 var Connection = require('../views/connection');
 var Collection = require('../models/tweet-collection');
+var kadoh = require('kadoh');
 
 module.exports = Backbone.Router.extend({
 
@@ -49,6 +50,12 @@ module.exports = Backbone.Router.extend({
     var that = this;
     this.user = cred[0];
     this.twitterNode = window.createNode(cred[1], cred[2]);
+
+    var Log = new kadoh.logger.reporter.Console(kadoh.logger.logging, 'debug');
+    kadoh.logger.logging.subscribeTo(this.twitterNode, 'Node');
+    kadoh.logger.logging.subscribeTo(this.twitterNode._reactor, 'Reactor');
+    kadoh.logger.logging.subscribeTo(this.twitterNode._reactor._transport, 'Transport');
+    kadoh.logger.logging.subscribeTo(this.twitterNode._routingTable, 'RoutingTable');
     that.connectionView.freeze();
 
     this.twitterNode.connect(function() {
