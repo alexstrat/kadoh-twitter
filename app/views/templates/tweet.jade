@@ -3,9 +3,4 @@
   | &nbsp;wrote on&nbsp;
   span.date #{date.toUTCString()}
 .text 
-  p #{text}
-- if(hashtags.length > 0)
-  ul.hashtag.breadcrumbs
-   each tag in hashtags
-     li
-       a(href='/hashtag/'+tag, rel='external') #{tag}
+  p !{text}

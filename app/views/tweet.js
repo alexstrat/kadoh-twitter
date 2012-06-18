@@ -11,9 +11,14 @@ module.exports = backbone.View.extend({
   className : 'tweet',
 
   render: function() {
-    this.model.setHashTags(); //trigger hashtags extractionm
+    var text = this.model.get('text').replace(/#(\w+)/g, function(s, hashtag) {
+      return browserijade('link-hashtag', {hashtag : hashtag});
+    });
+    var data = {text   : text,
+                date   : this.model.get('date'),
+                author : this.model.get('author')}
 
-    var html = browserijade('tweet', this.model.attributes);
+    var html = browserijade('tweet', data);
     this.$el.html(html);
     return this;
   }
