@@ -56,8 +56,6 @@ module.exports = Backbone.Model.extend({
     trunkedDate.setSeconds(0)
     trunkedDate.setMilliseconds(0);
 
-    tweet.setId();
-
     var collections = tweet.getHashTags().map(function(tag) {
         return '/hashtag/' + tag;
       }).concat([

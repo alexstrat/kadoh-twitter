@@ -25,8 +25,7 @@ module.exports = backbone.View.extend({
     if(text.match(/^\s*$/g))
       return;
 
-    var t = new Tweet({text : text, date : new Date()});
-    this.trigger('submit', t);
+    this.trigger('submit', text);
     this.freeze();
   },
 

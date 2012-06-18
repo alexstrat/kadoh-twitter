@@ -62,7 +62,7 @@ module.exports = Backbone.Router.extend({
       that.twitterNode.join(function() {
         var now = new Date();
         now.setMinutes(0);
-        now.setSeconds(0)
+        now.setSeconds(0);
         now.setMilliseconds(0);
 
         that.tweetForm.unfreeze();
@@ -71,11 +71,16 @@ module.exports = Backbone.Router.extend({
     });
   },
 
-  onTweetSubmit: function(tweet) {
+  onTweetSubmit: function(text) {
     var that = this;
     this.tweetForm.freeze();
+    var tweet = new Tweet({
+      text: text,
+      date: new Date().getTime(),
+      author: this.user
+    });
+    tweet.setId();
     tweet.twitterNode = this.twitterNode;
-    tweet.set('author', this.user);
     tweet.save(null, {success : function() {
       that.tweetForm.render();
     }});
