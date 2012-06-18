@@ -13,6 +13,15 @@ module.exports = Backbone.Model.extend({
       this.twitterNode = options.twitterNode;
   },
 
+  getId: function() {
+    this.get('id') || this.setId();
+    return this.get('id');
+  },
+
+  setId: function() {
+    this.set('id', this.getAuthor() + '-' + this.getDate().getTime());
+  },
+
   getAuthor: function() {
     return this.get('author');
   },
@@ -47,6 +56,8 @@ module.exports = Backbone.Model.extend({
     trunkedDate.setSeconds(0)
     trunkedDate.setMilliseconds(0);
 
+    tweet.setId();
+
     var collections = tweet.getHashTags().map(function(tag) {
         return '/hashtag/' + tag;
       }).concat([
@@ -58,8 +69,8 @@ module.exports = Backbone.Model.extend({
                .post(tweet.attributes, collections)
                .pipe(function() {
                 return {
-                  id : tweet.getAuthor()+tweet.getDate().valueOf()
-                  };
+                  id : tweet.getAuthor() + tweet.getDate().valueOf()
+                };
                })
                .then(options.success, options.error);
   }
