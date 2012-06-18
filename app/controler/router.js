@@ -2,6 +2,7 @@ var Backbone = require('backbone-browserify');
 var $ = require('jquery-browserify');
 var Connection = require('../views/connection');
 var TweetForm = require('../views/tweet-form');
+var Tweet = require('../models/tweet');
 var Timeline = require('../views/timeline');
 var Connection = require('../views/connection');
 var Collection = require('../models/tweet-collection');

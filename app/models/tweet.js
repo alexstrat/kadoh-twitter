@@ -19,7 +19,7 @@ module.exports = Backbone.Model.extend({
   },
 
   setId: function() {
-    this.set('id', this.getAuthor() + '-' + this.getDate().getTime());
+    this.set('id', this.getAuthor() + '-' + this.getDate());
   },
 
   getAuthor: function() {
