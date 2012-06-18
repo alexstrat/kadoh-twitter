@@ -20,6 +20,13 @@ module.exports = Backbone.Collection.extend({
 
   model: Tweet,
 
+  parse: function(res) {
+    var that = this;
+    return res.map(function(t) {
+      return that.model.prototype.parse(t);
+    });
+  },
+
   comparator: function(tweet) {
     return tweet.getDate();
   },
@@ -31,7 +38,7 @@ module.exports = Backbone.Collection.extend({
     return this.twitterNode
                .get(options.url || collection.url)
                .addProgress(function(tweets) {
-                 collection.add(tweets);
+                 collection.add(collection.parse(tweets));
 
                  if(options.progress)
                   options.progress(collection, tweets);

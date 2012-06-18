@@ -44,6 +44,11 @@ module.exports = Backbone.Model.extend({
     return this.get('hashtags');
   },
 
+  parse: function(raw) {
+    raw.date = (raw.date instanceof Date) ? raw.date : new Date(raw.date);
+    return raw;
+  },
+
   urlRoot: '/tweet',
 
   sync: function(method, tweet, options) {
