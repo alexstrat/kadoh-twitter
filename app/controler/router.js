@@ -53,8 +53,13 @@ module.exports = Backbone.Router.extend({
 
     this.twitterNode.connect(function() {
       that.twitterNode.join(function() {
+        var now = new Date();
+        now.setMinutes(0);
+        now.setSeconds(0)
+        now.setMilliseconds(0);
+
         that.tweetForm.unfreeze();
-        that.navigate('time/'+Date.now(), {trigger : true});
+        that.navigate('time/'+now.valueOf(), {trigger : true});
       });
     });
   },

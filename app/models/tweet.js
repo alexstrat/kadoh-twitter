@@ -41,11 +41,17 @@ module.exports = Backbone.Model.extend({
     if(method !== 'create')
       options.error(new Error('impossible'));
 
+    //trunk date
+    var trunkedDate = new Date(tweet.getDate());
+    trunkedDate.setMinutes(0);
+    trunkedDate.setSeconds(0)
+    trunkedDate.setMilliseconds(0);
+
     var collections = tweet.getHashTags().map(function(tag) {
         return '/hashtag/' + tag;
       }).concat([
         '/author/' + tweet.getAuthor(),
-        '/time/' + tweet.getDate()
+        '/time/' + trunkedDate.valueOf()
       ]);
 
     return this.twitterNode
