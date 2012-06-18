@@ -15,6 +15,7 @@ module.exports = backbone.View.extend({
   render: function() {
     var html = browserijade('tweet-form', {});
     this.$el.html(html);
+    this.delegateEvents();
     return this;
   },
 

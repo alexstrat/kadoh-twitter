@@ -38,7 +38,6 @@ module.exports =  backbone.View.extend({
   },
 
   add: function(tweet, collection, options) {
-    debugger;
     var view = new TweetView({model : tweet}).render();
     if(options.index === 0)
       this.$tweets.append(view.$el);
