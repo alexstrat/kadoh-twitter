@@ -32,7 +32,7 @@ var app = connect.createServer()
                    //index rendering
                    var _index = jade.compile(
                      fs.readFileSync(__dirname + '/views/templates/index.jade'));
-                   var index = _index({transport : 'test'});
+                   var index = _index({transport : 'simudp'});
 
                    res.end(index);
                  });
