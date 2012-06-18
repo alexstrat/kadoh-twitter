@@ -106,7 +106,7 @@ module.exports = Backbone.Router.extend({
   navigateToUser :function(user) {
     if(!this.twitterNode)
       return this.navigate('/');
-    this.loadInTimeline(this.getTweetCollection('/user/'+user));
+    this.loadInTimeline(this.getTweetCollection('/author/'+user));
     return this;
   },
 
