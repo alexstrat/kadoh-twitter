@@ -8,9 +8,9 @@ Node.prototype = {
   join: function(cb) {
     setTimeout(cb, 500);
   },
-  post: function(tweet, hash, auth, date) {
+  post: function(tweet, collections) {
     var def = new window.KadOH.util.Deferred();
-    console.log('posting ', tweet, hash, auth, date);
+    console.log('posting', tweet, collections);
     setTimeout(function() {
       def.resolve();
     }, 500);

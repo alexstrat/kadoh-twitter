@@ -1,0 +1,213 @@
+#!/usr/bin/env node
+
+var nconf  = require('nconf');
+var argv   = require('optimist').argv;
+var colors = require('colors');
+var multi  = require('multimeter')(process);
+var charm  = multi.charm;
+var path   = require('path');
+var fs     = require('fs');
+var spawn  = require('child_process').spawn;
+var fork   = require('child_process').fork;
+
+var BBIN = __dirname + "/bootstrap";
+var PBIN = __dirname + "/pool";
+
+var DEFAULTS = __dirname + "/config/udp.default.json"
+
+charm.setMaxListeners(100);
+charm.reset();
+charm.on('^C', function() {
+  spawn('reset');
+  process.exit();
+});
+
+var defaults = JSON.parse(fs.readFileSync(DEFAULTS));
+var procs = [];
+
+var config = configuration();
+process.env.KADOH_TRANSPORT = (config.botType === 'udp' ? 'udp' : 'xmpp');
+(config.starter === false) ? launchPools() : launchBootstraps();
+
+function configuration() {
+  var configFile;
+  if (process.argv.length > 0) {
+    // load arguments
+    nconf.argv();
+  }
+
+  if (process.argv.length === 3 && !argv.config) {
+    argv.config = process.argv[2];
+  };
+
+  // load file
+  if (argv.config) {
+    var files = [
+      argv.config,
+      argv.config + ".json",
+      __dirname + "/config/" + argv.config,
+      __dirname + "/config/" + argv.config + ".json"
+    ];
+
+    for (var i = 0; i < files.length; i++) {
+      if (path.existsSync(path.resolve(files[i]))) {
+        configFile = path.resolve(files[i]);
+        break;
+      }
+    }
+    
+    if (!configFile) {
+      console.error("config file doesn't exist");
+      process.exit(1);
+    }
+
+    nconf.file({ file : configFile });
+  }
+
+  // apply default
+  nconf.defaults(defaults);
+
+  var config = nconf.load();
+  config.activity /= config.size;
+  return config;
+}
+
+function poolParams(id) {
+  var protocol   = config.botType === 'udp' ? 'jsonrpc2' : 'node_xmlrpc';
+  var bootstraps = config.botType === 'udp' ? 
+                   config.bootstraps :
+                   config.bootstraps.map(function(bootstrap) {
+                     return bootstrap[0] + "/" + bootstrap[1];
+                   });
+  return {
+    id       : id,
+    size     : config.poolSize,
+    activity : config.activity,
+    lambda   : config.speed,
+    values   : config.values,
+    reporter : config.reporter,
+    bot : {
+      bootstraps : bootstraps,
+      reactor : {
+        protocol  : protocol, 
+        transport : {
+          jid       : config.jids ? config.jids[0] : null,
+          password  : config.jids ? config.jids[1] : null,
+          port      : config.port,
+          reconnect : true
+        }
+      }
+    }
+  };
+}
+
+function launchPools() {
+  var bars    = [];
+  var started = [];
+  var means   = [];
+  var mins    = [];
+  var maxs    = [];
+
+  var progress = function(data) {
+    var match = /bot\-(\d+)\-(\d+)\ joined (\d+)/.exec(String(data));
+    if (match) {
+      var pool   = parseInt(match[1], 10);
+      var joined = parseInt(match[3], 10);
+      var sta    = ++started[pool];
+      var size   = config.poolSize;
+
+      var percent = Math.ceil(sta / size * 100);
+      means[pool] = (means[pool] * (sta - 1) + joined) / sta;
+      maxs[pool]  = joined > maxs[pool] ? joined : maxs[pool];
+      mins[pool]  = joined < mins[pool] ? joined : mins[pool];
+      
+      bars[pool].percent(percent, percent + '%\t' +
+                                  '(min:'+ mins[pool] +
+                                  ' max:'+ maxs[pool] +
+                                  ' avg:' + Math.ceil(means[pool]) + 
+                                  ')    ');
+    }
+  };
+
+  var pipe = function(data) {
+    data = String(data);
+    if (!/StringPrep/.test(data)) {
+      process.stderr.write(String(data));
+    }
+  };
+
+  var l = Math.ceil(config.size / config.poolSize);
+  multi.write('Starting a ' + config.botType.green + ' DHT of ' + (config.size + ' bots').red + ' in ' + (l + ' pools').red);
+  for (var i = 0; i < l; i++) {
+    var params = poolParams(i);
+    var pproc  = spawn('node', [PBIN, JSON.stringify(params)]);
+    procs.push(pproc);
+    var bar = multi(1, i + 5, {
+        width : 40,
+        solid : {
+            text : '=',
+            foreground : 'green'
+        }});
+    bar.percent(0);
+    bars.push(bar);
+    started.push(0);
+    means.push(0);
+    mins.push(Infinity);
+    maxs.push(0);
+    pproc.stdout.on('data', progress);
+    pproc.stderr.on('data', pipe);
+  }
+}
+
+function launchBootstraps() {
+  var connected = 0;
+  var bar = multi(1, 3, {
+    width : 40,
+    solid : {
+        text : '=',
+        foreground : 'green'
+    }
+  });
+
+  var bootstrapOptions = config.botType === 'udp' ?
+    function(bootstrap) {
+      return [
+        BBIN,
+        "--udp",
+        "--port=" + bootstrap.split(":")[1]
+      ];
+    } :
+    function(bootstrap) {
+      return [
+        BBIN,
+        "--jid="      + bootstrap[0],
+        "--resource=" + bootstrap[1],
+        "--password=" + bootstrap[2]
+      ];
+    };
+
+  config.bootstraps.forEach(function(bootstrap) {
+    var bproc = spawn("node", bootstrapOptions(bootstrap));
+    procs.push(bproc);
+    bproc.stdout.on('data', function(data) {
+      if (/connected/.test(data)) {
+        bar.ratio(++connected, config.bootstraps.length, connected + '/' + config.bootstraps.length + ' bootstraps');
+        if (connected === config.bootstraps.length) {
+          launchPools();
+        }
+      }
+    });
+    bproc.stderr.on('data', function(data) {
+      data = String(data);
+      if (!/StringPrep/.test(data)) {
+        process.stderr.write(String(data));
+      }
+    });
+  });
+}
+
+process.on('exit', function() {
+  for (var i = 0; i < procs.length; i++) {
+    procs[i].kill();
+  }
+})

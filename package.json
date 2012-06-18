@@ -22,6 +22,10 @@
   , "jade"   : "*"
   , "twitter-text" : "~1.4"
   , "tagify"       : "latest"
-    },
+  , "nconf"          : "~0.5"
+  , "multimeter"     : "~0.1"
+  , "optimist"       : "~0.3"
+  , "colors"           : "~0.6"
+  },
   "devDependencies": {}
 }
