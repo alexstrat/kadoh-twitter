@@ -1,7 +1,6 @@
 - var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
 .head
   a.author(href='/author/'+author, rel='external') #{author}
-  | &nbsp;wrote on&nbsp;
-  span.date #{date.getDate()}&nbsp;#{months[date.getMonth()]}&nbsp;#{date.getHours()}:#{date.getMinutes()}
+  span.date #{date.getDate()}&nbsp;#{months[date.getMonth()]}&nbsp;#{date.getHours()}:#{(date.getMinutes() <10) ? '0'+date.getMinutes() : date.getMinutes()}
 .text 
   p !{text}

@@ -1,6 +1,13 @@
 var backbone = require('backbone-browserify'),
     browserijade = require("browserijade");
 
+var escapeHTML = function(toescape) {
+  return toescape.replace(/&(?!\w+;|#\d+;|#x[\da-f]+;)/gi, '&amp;')
+                 .replace(/</g, '&lt;')
+                 .replace(/>/g, '&gt;')
+                 .replace(/"/g, '&quot;');
+};
+
 module.exports = backbone.View.extend({
 
   attributes: function() {
@@ -11,7 +18,8 @@ module.exports = backbone.View.extend({
   className : 'tweet',
 
   render: function() {
-    var text = this.model.get('text').replace(/#(\w+)/g, function(s, hashtag) {
+    var text = escapeHTML(this.model.get('text'));
+    text = text.replace(/#(\w+)/g, function(s, hashtag) {
       return browserijade('link-hashtag', {hashtag : hashtag});
     });
     var data = {text   : text,
