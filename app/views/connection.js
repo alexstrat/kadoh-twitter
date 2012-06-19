@@ -4,12 +4,9 @@ var backbone = require('backbone-browserify'),
 module.exports = backbone.View.extend({
 
   events: {
-    "submit #connection-form": "onSubmit",
+    "submit #form": "onSubmit",
     "click .js-submit": "onSubmit"
   },
-
-  tagName : 'div',
-  className : 'connection',
 
   render: function() {
     var html = browserijade('connection-form', {});

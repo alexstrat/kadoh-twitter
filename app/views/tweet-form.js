@@ -5,12 +5,9 @@ var browserijade = require("browserijade");
 module.exports = backbone.View.extend({
 
   events: {
-    "submit #tweet-form": "onSubmit",
+    "submit form": "onSubmit",
     "click .js-tweet" : "onSubmit"
   },
-
-  tagName : 'div',
-  className : 'tweet-form',
 
   render: function() {
     var html = browserijade('tweet-form', {});
@@ -32,14 +29,14 @@ module.exports = backbone.View.extend({
 
   freeze: function() {
     this.$('form>textarea').attr("disabled", "disabled");
-    this.$('form>.js-tweet').addClass('disabled');
+    this.$('form .js-tweet').addClass('disabled');
     this.undelegateEvents();
     return this;
   },
 
   unfreeze: function() {
     this.$('form>textarea').removeAttr("disabled");
-    this.$('form>.js-tweet').removeClass('disabled');
+    this.$('form .js-tweet').removeClass('disabled');
     this.delegateEvents();
     return this;
   }

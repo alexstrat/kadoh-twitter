@@ -7,31 +7,22 @@ var Timeline = require('../views/timeline');
 var Connection = require('../views/connection');
 var Collection = require('../models/tweet-collection');
 var kadoh = require('kadoh');
+var browserijade = require('browserijade');
 
 module.exports = Backbone.Router.extend({
 
   initialize: function() {
     var that = this;
+
+    this.$el = $('#container');
+    this.$el.html(browserijade('main-connection', {}));
     //init a connection view
-    this.connectionView = new Connection();
-    $('#main').append(this.connectionView
-                         .render()
-                         .$el);
+    this.connectionView = new Connection({
+      el : this.$el.find('#connection-form')
+    })
+    .render();
+
     this.connectionView.on('connection', this.onConnect, this);
-
-    //init a tweet-form view
-    this.tweetForm = new TweetForm();
-    $('#main').append(this.tweetForm
-                         .render()
-                         .freeze()
-                         .$el);
-    this.tweetForm.on('submit', this.onTweetSubmit, this);
-
-    //init a timeline view
-    this.timeline = new Timeline();
-    $('#main').append(this.timeline
-                         .render()
-                         .$el);
 
     //routing
     $('body').on('click', 'a[rel=external]', function(e) {
@@ -40,6 +31,23 @@ module.exports = Backbone.Router.extend({
     });
   },
 
+  initializeApp: function() {
+    this.$el.empty();
+    this.$el.html(browserijade('main', {}));
+
+    //init a tweet-form view
+    this.tweetForm = new TweetForm({
+      el : this.$el.find('#tweet-form')
+    })
+    .render();
+    this.tweetForm.on('submit', this.onTweetSubmit, this);
+
+    //init a timeline view
+    this.timeline = new Timeline({
+      el : this.$el.find('#timeline')
+    })
+    .render();
+  },
 
   routes: {
     'author/:user' : 'navigateToUser',
@@ -66,7 +74,7 @@ module.exports = Backbone.Router.extend({
         now.setSeconds(0);
         now.setMilliseconds(0);
 
-        that.tweetForm.unfreeze();
+        that.initializeApp();
         that.navigate('time/'+now.valueOf(), {trigger : true});
       });
     });

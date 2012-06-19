@@ -9,11 +9,6 @@ module.exports =  backbone.View.extend({
       this.bindTo(this.collection);
   },
   
-  className : '',
-
-  id : 'timeline',
-  tagName : 'div',
-
   render: function() {
     var that = this;
     this.$el.empty();
