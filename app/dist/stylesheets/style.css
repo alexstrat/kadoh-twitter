@@ -1,0 +1,15 @@
+.tweet>.head>.date {
+  float: right;
+  font-style: italic;
+  font-color: #474747;
+}
+
+.tweet>.head>.author {
+   font-weight: bold;
+}
+
+.tweet>.text {
+  padding-top: 6px;
+  background-color: #FFFFFC;
+  border-radius: 4px;
+}
