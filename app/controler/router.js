@@ -67,8 +67,13 @@ module.exports = Backbone.Router.extend({
     kadoh.logger.logging.subscribeTo(this.twitterNode._routingTable, 'RoutingTable');
     that.connectionView.freeze();
 
+    this.connectionView.addStateInfo('connecting...');
     this.twitterNode.connect(function() {
+      that.connectionView.addStateInfo('connected. ');
+      that.connectionView.addStateInfo('joining...');
+      
       that.twitterNode.join(function() {
+        that.connectionView.addStateInfo('joined.');
         var now = new Date();
         now.setMinutes(0);
         now.setSeconds(0);

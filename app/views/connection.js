@@ -38,5 +38,9 @@ module.exports = backbone.View.extend({
     this.$('form>.js-submit').addClass('disabled');
     this.undelegateEvents();
     return this;
+  },
+
+  addStateInfo: function(text) {
+    this.$('.state-info').append(text+'<br/>');
   }
 });
