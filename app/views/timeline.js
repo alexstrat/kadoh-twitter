@@ -68,7 +68,10 @@ module.exports =  backbone.View.extend({
   },
 
   upBottom: function() {
-    this.$bottom.html('Total: '+this.collection.length+' tweets.')
+    this.$bottom.html('Total: '+this.collection.length+' tweets.');
+  },
 
+  refresh: function() {
+    this.collection.fetch();
   }
 });

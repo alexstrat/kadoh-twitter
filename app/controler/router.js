@@ -84,6 +84,7 @@ module.exports = Backbone.Router.extend({
     tweet.twitterNode = this.twitterNode;
     tweet.save(null, {success : function() {
       that.tweetForm.render();
+      that.timeline.refresh();
     }});
   },
 
