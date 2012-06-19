@@ -9,7 +9,7 @@ module.exports =  backbone.View.extend({
       this.bindTo(this.collection);
   },
   
-  className : 'row',
+  className : '',
 
   id : 'timeline',
   tagName : 'div',
@@ -20,19 +20,21 @@ module.exports =  backbone.View.extend({
 
     this.$el.html(browserijade('timeline'), {});
 
-    this.$tweets = this.$('>#tweets');
-    this.$loading = this.$('>#loading');
+    this.$tweets = this.$('>.tweets');
+    this.$bottom = this.$('>.bottom');
 
     return this;
   },
 
   renderTweets: function() {
+    this.$tweets.empty();
     if(this.collection) {
       this.collection.forEach(function(tweet) {
         var view = new TweetView({model : tweet});
         that.$tweets.prepend(view.render().$el);
       });
     }
+    this.upBottom();
 
     return this;
   },
@@ -44,7 +46,8 @@ module.exports =  backbone.View.extend({
       this.$tweets.append(view.$el);
     else
       this.$tweets.find('>'+view.tagName+':nth-last-child('+options.index+')').before(view.$el);
-    
+
+    this.upBottom();
     return this;
   },
 
@@ -64,11 +67,8 @@ module.exports =  backbone.View.extend({
     return this;
   },
 
-  setLoading: function() {
-    //display a spin
-  },
+  upBottom: function() {
+    this.$bottom.html('Total: '+this.collection.length+' tweets.')
 
-  unsetLoading: function() {
-    //un-display a spin
   }
 });

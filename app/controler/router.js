@@ -14,14 +14,14 @@ module.exports = Backbone.Router.extend({
     var that = this;
     //init a connection view
     this.connectionView = new Connection();
-    $('body>.container').append(this.connectionView
+    $('#main').append(this.connectionView
                          .render()
                          .$el);
     this.connectionView.on('connection', this.onConnect, this);
 
     //init a tweet-form view
     this.tweetForm = new TweetForm();
-    $('body>.container').append(this.tweetForm
+    $('#main').append(this.tweetForm
                          .render()
                          .freeze()
                          .$el);
@@ -29,7 +29,7 @@ module.exports = Backbone.Router.extend({
 
     //init a timeline view
     this.timeline = new Timeline();
-    $('body>.container').append(this.timeline
+    $('#main').append(this.timeline
                          .render()
                          .$el);
 
@@ -99,7 +99,7 @@ module.exports = Backbone.Router.extend({
   loadInTimeline: function(collection) {
     this.timeline.unbind()
                  .bindTo(collection)
-                 .render();
+                 .renderTweets();
     return this;
   },
 

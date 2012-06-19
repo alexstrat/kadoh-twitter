@@ -13,3 +13,9 @@
   background-color: #FFFFFC;
   border-radius: 4px;
 }
+
+#timeline>.bottom {
+  float: right;
+  font-style: italic;
+  font-size: 10px;
+}

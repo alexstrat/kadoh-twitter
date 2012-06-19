@@ -15,9 +15,5 @@ html(lang="en")
           script(src='/init-xmpp.js')
     body
       .container
-        h1 This is KadOH-Twitter
-        case transport
-          when 'simudp'
-            h2 You are backed by udp
-          when 'xmpp'
-            h2 You are backed by xmpp
+        .row
+          #main.four.columns.centered
