@@ -89,7 +89,7 @@ module.exports = Backbone.Router.extend({
       that.twitterNode.join(function() {
         that.connectionView.addStateInfo('joined.');
         that.initializeApp();
-        that.navigate('time/latest', {trigger : true});
+        that.navigate(that._cache_frag && that._cache_frag !== '' ? that._cache_frag :'time/latest', {trigger : true});
       });
     });
   },
@@ -132,24 +132,29 @@ module.exports = Backbone.Router.extend({
   },
 
   navigateToUser :function(user) {
-    if(!this.twitterNode)
+    if(!this.twitterNode) {
+       this._cache_frag = Backbone.history.getFragment();
       return this.navigate('/');
+    }
     this.loadInTimeline(this.getTweetCollection('/author/'+user));
     return this;
   },
 
   navigateToTime: function(time) {
-    if(!this.twitterNode)
+    if(!this.twitterNode) {
+      this._cache_frag = Backbone.history.getFragment();
       return this.navigate('/');
-
+    }
 
     this.loadInTimeline(this.getTweetCollection('/time/'+time));
     return this;
   },
 
   navigateToHashTag: function(hash) {
-    if(!this.twitterNode)
+    if(!this.twitterNode){
+       this._cache_frag = Backbone.history.getFragment();
       return this.navigate('/');
+    }
     this.loadInTimeline(this.getTweetCollection('/hashtag/'+hash));
     return this;
   }
