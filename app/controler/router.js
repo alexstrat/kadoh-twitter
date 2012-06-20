@@ -4,6 +4,7 @@ var Connection = require('../views/connection');
 var TweetForm = require('../views/tweet-form');
 var Tweet = require('../models/tweet');
 var Timeline = require('../views/timeline');
+var Side = require('../views/side');
 var Connection = require('../views/connection');
 var Collection = require('../models/tweet-collection');
 var kadoh = require('kadoh');
@@ -47,6 +48,13 @@ module.exports = Backbone.Router.extend({
       el : this.$el.find('#timeline')
     })
     .render();
+
+    //init a timeline view
+    this.sideView = new Side({
+      el : this.$el.find('#side')
+    })
+    .render()
+    .on('refresh', this.timeline.refresh, this.timeline);
   },
 
   routes: {
