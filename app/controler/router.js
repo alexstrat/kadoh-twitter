@@ -54,7 +54,9 @@ module.exports = Backbone.Router.extend({
       el : this.$el.find('#side')
     })
     .render()
-    .on('refresh', this.timeline.refresh, this.timeline);
+    .on('refresh', this.timeline.refresh, this.timeline)
+    .on('gotouser', this.navigateToUser, this)
+    .on('gotohash', this.navigateToHashTag, this);
   },
 
   routes: {

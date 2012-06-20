@@ -37,3 +37,16 @@
 #tweet-form {
   margin-bottom: 30px;
 }
+
+#side nav {
+  margin-top: 20px;
+}
+#side nav a {
+  font-style: italic;
+  font-size: 12px;
+  float: right;
+}
+
+#side nav input {
+  width: 100%;
+}
