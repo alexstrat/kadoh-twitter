@@ -24,7 +24,6 @@ module.exports = backbone.View.extend({
       return;
 
     this.trigger('submit', text);
-    this.freeze();
   },
 
   freeze: function() {
@@ -35,9 +34,13 @@ module.exports = backbone.View.extend({
   },
 
   unfreeze: function() {
-    this.$('form>textarea').removeAttr("disabled");
+    this.$('form>textarea').removeAttr('disabled');
     this.$('form .js-tweet').removeClass('disabled');
     this.delegateEvents();
     return this;
+  },
+
+  infoWrong: function() {
+    this.$('.info').html('Something went wrong..');
   }
 });

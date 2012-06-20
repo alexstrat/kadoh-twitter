@@ -38,6 +38,10 @@
   margin-bottom: 30px;
 }
 
+#tweet-form .info {
+  color: red;
+}
+
 #side nav {
   margin-top: 20px;
 }

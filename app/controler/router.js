@@ -107,6 +107,10 @@ module.exports = Backbone.Router.extend({
     tweet.save(null, {success : function() {
       that.tweetForm.render();
       that.timeline.refresh();
+    },
+    error: function() {
+      that.tweetForm.unfreeze()
+                    .infoWrong();
     }});
   },
 
