@@ -55,8 +55,12 @@ module.exports = Backbone.Router.extend({
     })
     .render()
     .on('refresh', this.timeline.refresh, this.timeline)
-    .on('gotouser', this.navigateToUser, this)
-    .on('gotohash', this.navigateToHashTag, this);
+    .on('gotouser', function(user) {
+      this.navigate('/author/'+user, { trigger : true});
+      }, this)
+    .on('gotohash', function(tag) {
+      this.navigate('/hashtag/'+tag, { trigger : true});
+      }, this);
   },
 
   routes: {

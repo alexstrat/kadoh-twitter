@@ -25,10 +25,10 @@ module.exports = backbone.View.extend({
     var what = this.$('input').val();
 
     if(what.charAt(0) === '#') {
-      this.trigger('gotohash', what.slice(1))
+      this.trigger('gotohash', what.slice(1));
     }
     if(what.charAt(0) === '@') {
-      this.trigger('gotouser', what.slice(1))
+      this.trigger('gotouser', what.slice(1));
     }
   }
   
