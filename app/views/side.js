@@ -12,6 +12,12 @@ module.exports = backbone.View.extend({
   render: function() {
     var html = browserijade('side', {});
     this.$el.html(html);
+    this.spinner = new Spinner({
+      color: '#E9E9E9',
+      length : 4,
+      top : 20,
+      left: 20
+    }).spin(this.$('.spinner')[0]);
     return this;
   },
 
@@ -30,6 +36,14 @@ module.exports = backbone.View.extend({
     if(what.charAt(0) === '@') {
       this.trigger('gotouser', what.slice(1));
     }
+  },
+
+  spin: function() {
+    this.spinner.spin(this.$('.spinner')[0]);
+  },
+
+  spinStop: function() {
+    this.spinner.stop();
   }
   
 });

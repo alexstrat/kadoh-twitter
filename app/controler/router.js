@@ -115,7 +115,12 @@ module.exports = Backbone.Router.extend({
       url:url,
       twitterNode: this.twitterNode
     });
-    tweets.fetch();
+    this.sideView.spin();
+    var s = this.sideView;
+    var stop = function() {
+      s.spinStop();
+    };
+    tweets.fetch({success : stop, error : stop});
     return tweets;
   },
 
