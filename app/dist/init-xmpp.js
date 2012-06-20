@@ -1,5 +1,3 @@
-node = null;
-
 var config = {
   bootstraps : [
     'bootstrap0@kadoh.fr.nf/kadoh',
@@ -7,9 +5,9 @@ var config = {
     'bootstrap2@kadoh.fr.nf/kadoh'
   ],
   reactor : {
+    type: 'xmpp',
+    protocol: 'xmlrpc',
     transport : {
-      jid      : 'kadoh@jabber.org',
-      password : 'azerty',
       resource : 'kadoh'
     }
   }
@@ -18,12 +16,15 @@ var config = {
 function createNode(jid, password) {
   config.reactor.transport.jid = jid;
   config.reactor.transport.password = password;
-  node = new KadOH.Node(undefined, config);
 
-  KadOH.log.subscribeTo(node, 'Node', 'info');
-  KadOH.log.subscribeTo(node._reactor, 'Reactor', 'debug');
-  KadOH.log.subscribeTo(node._reactor._transport, 'Transport', 'debug');
-  KadOH.log.subscribeTo(node._routingTable, 'RoutingTable', 'debug');
+  var node = new KadOH.logic.TwitterNode(null, config);
+
+  // KadOH.log.subscribeTo(node, 'Node', 'info');
+  // KadOH.log.subscribeTo(node._reactor, 'Reactor', 'debug');
+  // KadOH.log.subscribeTo(node._reactor._transport, 'Transport', 'debug');
+  // KadOH.log.subscribeTo(node._routingTable, 'RoutingTable', 'debug');
+
+  return node;
 }
 
 window.createNode = createNode;

@@ -3,7 +3,7 @@ var browserify = require("browserify"),
     connect = require('connect'),
     http = require('http'),
     jade = require('jade'),
-    tagify = require('tagify')
+    tagify = require('tagify'),
     fs = require('fs');
 
 //configuation :
@@ -17,7 +17,7 @@ var new_bundle = function(transport) {
          .use(tagify.flags([transport, 'lawnchair']))
          .addEntry(__dirname + '/app-client.js')
          .bundle();  
-}
+};
 
 //connect application
 var app = connect.createServer()
@@ -32,7 +32,7 @@ var app = connect.createServer()
                    //index rendering
                    var _index = jade.compile(
                      fs.readFileSync(__dirname + '/views/templates/index.jade'));
-                   var index = _index({transport : 'simudp'});
+                   var index = _index({transport : transport});
 
                    res.end(index);
                  });
