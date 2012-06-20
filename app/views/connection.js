@@ -18,6 +18,8 @@ module.exports = backbone.View.extend({
   onSubmit: function(e) {
     e.preventDefault();
     var username = this.$('form>.username').val();
+    if(username.match(/^\s*$/g))
+      return
     this.trigger('connection', [username]);
     this.freeze();
   },
