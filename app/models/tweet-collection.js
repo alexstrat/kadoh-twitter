@@ -35,8 +35,19 @@ module.exports = Backbone.Collection.extend({
     if(method !== 'read')
       options.error(new Error('impossible'));
 
+    var url = options.url || collection.url;
+    
+    //detect time/latest
+    if(url === '/time/latest') {
+      var now = new Date();
+      now.setMinutes(0);
+      now.setSeconds(0);
+      now.setMilliseconds(0);
+      url = '/time/' + now.valueOf();
+    }
+
     return this.twitterNode
-               .get(options.url || collection.url)
+               .get(url)
                .addProgress(function(tweets) {
                  collection.add(collection.parse(tweets));
 

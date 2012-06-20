@@ -82,13 +82,8 @@ module.exports = Backbone.Router.extend({
       
       that.twitterNode.join(function() {
         that.connectionView.addStateInfo('joined.');
-        var now = new Date();
-        now.setMinutes(0);
-        now.setSeconds(0);
-        now.setMilliseconds(0);
-
         that.initializeApp();
-        that.navigate('time/'+now.valueOf(), {trigger : true});
+        that.navigate('time/latest', {trigger : true});
       });
     });
   },
@@ -135,6 +130,8 @@ module.exports = Backbone.Router.extend({
   navigateToTime: function(time) {
     if(!this.twitterNode)
       return this.navigate('/');
+
+
     this.loadInTimeline(this.getTweetCollection('/time/'+time));
     return this;
   },

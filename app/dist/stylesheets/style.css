@@ -5,6 +5,7 @@
 .tweet>.head>.date {
   float: right;
   font-style: italic;
+  font-size: 12px;
   font-color: #474747;
 }
 
