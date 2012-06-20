@@ -8,22 +8,19 @@ var config = {
     type: 'xmpp',
     protocol: 'xmlrpc',
     transport : {
+      jid : 'kadoh.fr.nf',
+      password : null,
       resource : 'kadoh'
     }
   }
 };
 
-function createNode(jid, password) {
-  config.reactor.transport.jid = jid;
-  config.reactor.transport.password = password;
-
+function createNode() {
   var node = new KadOH.logic.TwitterNode(null, config);
-
   // KadOH.log.subscribeTo(node, 'Node', 'info');
   // KadOH.log.subscribeTo(node._reactor, 'Reactor', 'debug');
   // KadOH.log.subscribeTo(node._reactor._transport, 'Transport', 'debug');
   // KadOH.log.subscribeTo(node._routingTable, 'RoutingTable', 'debug');
-
   return node;
 }
 
