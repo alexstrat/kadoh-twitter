@@ -8,6 +8,7 @@ var Side = require('../views/side');
 var Connection = require('../views/connection');
 var Collection = require('../models/tweet-collection');
 var kadoh = require('kadoh');
+var Reporter = require('../../lib/cube/reporter');
 var browserijade = require('browserijade');
 
 module.exports = Backbone.Router.extend({
@@ -69,10 +70,12 @@ module.exports = Backbone.Router.extend({
     'hashtag/:hashtag' : 'navigateToHashTag'
   },
 
-  onConnect: function(cred) {
+  onConnect: function(infos) {
     var that = this;
-    this.user = cred[0];
-    this.twitterNode = window.createNode(cred[1], cred[2]);
+    this.user = infos[0];
+    this.twitterNode = window.createNode();
+    this.reporter = new Reporter(this.twitterNode, infos[1]);
+    this.reporter.start();
 
     var Log = new kadoh.logger.reporter.Console(kadoh.logger.logging, 'debug');
     kadoh.logger.logging.subscribeTo(this.twitterNode, 'Node');
@@ -83,7 +86,7 @@ module.exports = Backbone.Router.extend({
 
     this.connectionView.addStateInfo('connecting...');
     this.twitterNode.connect(function() {
-      that.connectionView.addStateInfo('connected. ');
+      that.connectionView.addStateInfo('connected.');
       that.connectionView.addStateInfo('joining...');
       
       that.twitterNode.join(function() {

@@ -17,10 +17,11 @@ module.exports = backbone.View.extend({
 
   onSubmit: function(e) {
     e.preventDefault();
-    var username = this.$('form>.username').val();
+    var username = this.$('form .username').val();
+    var mobile = this.$('form .mobile').prop('checked');
     if(username.match(/^\s*$/g))
-      return
-    this.trigger('connection', [username]);
+      return;
+    this.trigger('connection', [username, mobile]);
     this.freeze();
   },
 
