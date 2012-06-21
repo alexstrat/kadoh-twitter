@@ -51,6 +51,26 @@
   float: right;
 }
 
+#side nav {
+  clear: both;
+}
+
 #side nav input {
   width: 100%;
+}
+
+#side .js-refresh {
+  float: left;
+  display: block;
+}
+
+#side .spinner {
+  margin: 4px 0px 0px 10px; 
+  float: left;
+  display: block;
+}
+
+#side .spinner img {
+  width: 20px;
+  height: 20px;
 }

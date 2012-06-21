@@ -12,12 +12,8 @@ module.exports = backbone.View.extend({
   render: function() {
     var html = browserijade('side', {});
     this.$el.html(html);
-    this.spinner = new Spinner({
-      color: '#E9E9E9',
-      length : 4,
-      top : 20,
-      left: 20
-    }).spin(this.$('.spinner')[0]);
+    this.spinner = this.$('.spinner');
+    this.delegateEvents();
     return this;
   },
 
@@ -39,11 +35,11 @@ module.exports = backbone.View.extend({
   },
 
   spin: function() {
-    this.spinner.spin(this.$('.spinner')[0]);
+    this.spinner.show();
   },
 
   spinStop: function() {
-    this.spinner.stop();
+    this.spinner.hide();
   }
   
 });
