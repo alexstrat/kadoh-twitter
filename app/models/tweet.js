@@ -52,8 +52,10 @@ module.exports = Backbone.Model.extend({
   urlRoot: '/tweet',
 
   sync: function(method, tweet, options) {
-    if(method !== 'create')
+    if(method !== 'update') {
       options.error(new Error('impossible'));
+      return null;
+    }
 
     //trunk date
     var trunkedDate = new Date(tweet.getDate());
