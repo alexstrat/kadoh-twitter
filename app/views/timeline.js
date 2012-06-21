@@ -66,7 +66,7 @@ module.exports =  backbone.View.extend({
     this.$bottom.html('Total: '+this.collection.length+' tweets.');
   },
 
-  refresh: function() {
-    this.collection.fetch();
+  refresh: function(options) {
+    this.collection.fetch(options);
   }
 });

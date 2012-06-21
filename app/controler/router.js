@@ -54,7 +54,7 @@ module.exports = Backbone.Router.extend({
       el : this.$el.find('#side')
     })
     .render()
-    .on('refresh', this.timeline.refresh, this.timeline)
+    .on('refresh', this.refreshTimeline, this)
     .on('gotouser', function(user) {
       this.navigate('/author/'+user, { trigger : true});
       }, this)
@@ -104,14 +104,30 @@ module.exports = Backbone.Router.extend({
     });
     tweet.setId();
     tweet.twitterNode = this.twitterNode;
+    this.sideView.spin();
     tweet.save(null, {success : function() {
       that.tweetForm.render();
-      that.timeline.refresh();
+      that.sideView.spinStop();
+      that.refreshTimeline();
     },
     error: function() {
+      that.sideView.spinStop();
       that.tweetForm.unfreeze()
                     .infoWrong();
     }});
+  },
+
+  refreshTimeline: function() {
+    var s = this.sideView;
+    this.sideView.spin();
+    this.timeline.refresh({
+      success : function() {
+        s.spinStop();
+      },
+      error: function() {
+         s.spinStop();
+      }
+    });
   },
 
   getTweetCollection: function(url) {
