@@ -1,8 +1,9 @@
 var config = {
   bootstraps : [
-    'bootstrap0@kadoh.fr.nf/kadoh',
-    'bootstrap1@kadoh.fr.nf/kadoh',
-    'bootstrap2@kadoh.fr.nf/kadoh'
+    'bootstrap5@kadoh.fr.nf/kadoh',
+    'bootstrap6@kadoh.fr.nf/kadoh',
+    'bootstrap7@kadoh.fr.nf/kadoh',
+    'bootstrap8@kadoh.fr.nf/kadoh'
   ],
   reactor : {
     type: 'xmpp',
