@@ -4,41 +4,61 @@ var browserify = require("browserify"),
     http = require('http'),
     jade = require('jade'),
     tagify = require('tagify'),
-    fs = require('fs');
+    fs = require('fs'),
+    uglify = require('uglify-js');
 
 //configuation :
+var prod = process.env.NODE_ENV &&
+           process.env.NODE_ENV === 'production';
 var transport = 'simudp';
 
 //client side javascript
-var new_bundle = function(transport) {
-  return browserify({cache : false, debug : true})
+var new_bundle = function() {
+  return browserify({
+            cache  : false,
+            debug  : !prod,
+            filter : !prod ? String : function(src) {
+              var ast = uglify.parser.parse(src);
+              ast = uglify.uglify.ast_mangle(ast);
+              ast = uglify.uglify.ast_squeeze(ast);
+
+              return uglify.uglify.gen_code(ast, { ascii_only: true });
+            }
+          })
          .use(browserijade(__dirname + "/views/templates",
             ['index.jade'], {debug : false}))
          .use(tagify.flags([transport, 'lawnchair']))
          .addEntry(__dirname + '/app-client.js')
-         .bundle();  
+         .bundle();
 };
+
+//index html
+var new_index = function() {
+  var _index = jade.compile(
+    fs.readFileSync(__dirname + '/views/templates/index.jade'));
+  return _index({
+   transport : transport,
+   reporter : !prod,
+   logger : !prod
+  });
+};
+
+//cache
+_cache_bundle = new_bundle();
+_cache_index = new_index();
 
 //connect application
 var app = connect.createServer()
                  .use('/app.js', function(req, res) {
                     res.statusCode = 200;
                     res.setHeader('content-type', 'text/javascript');
-                    res.end(new_bundle(transport));
+                    res.end(prod ? _cache_bundle : new_bundle());
                  })
                  .use(connect.static(__dirname + '/dist'))
                  .use('/', function(req, res) {
-
-                   //index rendering
-                   var _index = jade.compile(
-                     fs.readFileSync(__dirname + '/views/templates/index.jade'));
-                   var index = _index({
-                    transport : transport,
-                    reporter : false,
-                    logger : false
-                   });
-
-                   res.end(index);
+                    res.statusCode = 200;
+                    res.setHeader('content-type', 'text/html');
+                    res.end(prod ? _cache_index : new_index());
                  });
 
 //http server
