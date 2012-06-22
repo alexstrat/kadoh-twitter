@@ -5,6 +5,21 @@ html(lang="en")
       meta(name='viewport', content="width=device-width, initial-scale=1.0")
       link(rel='stylesheet', href='/stylesheets/foundation.css')
       link(rel='stylesheet', href='/stylesheets/style.css')
+
+      - if(reporter)
+          script
+            window._kadoh_reporter = true;
+      - else
+          script
+            window._kadoh_reporter = false;
+
+      - if(logger)
+          script
+            window._kadoh_logger = true;
+      - else
+          script
+            window._kadoh_logger = false;
+
       script(src='/app.js')
       case transport
         when 'test'

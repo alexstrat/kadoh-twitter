@@ -32,7 +32,11 @@ var app = connect.createServer()
                    //index rendering
                    var _index = jade.compile(
                      fs.readFileSync(__dirname + '/views/templates/index.jade'));
-                   var index = _index({transport : transport});
+                   var index = _index({
+                    transport : transport,
+                    reporter : false,
+                    logger : false
+                   });
 
                    res.end(index);
                  });

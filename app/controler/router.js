@@ -74,14 +74,18 @@ module.exports = Backbone.Router.extend({
     var that = this;
     this.user = infos[0];
     this.twitterNode = window.createNode();
-    this.reporter = new Reporter(this.twitterNode, infos[1]);
-    this.reporter.start();
+    if(window._kadoh_reporter) {
+      this.reporter = new Reporter(this.twitterNode, infos[1]);
+      this.reporter.start();
+    }
 
-    var Log = new kadoh.logger.reporter.Console(kadoh.logger.logging, 'debug');
-    kadoh.logger.logging.subscribeTo(this.twitterNode, 'Node');
-    kadoh.logger.logging.subscribeTo(this.twitterNode._reactor, 'Reactor');
-    kadoh.logger.logging.subscribeTo(this.twitterNode._reactor._transport, 'Transport');
-    kadoh.logger.logging.subscribeTo(this.twitterNode._routingTable, 'RoutingTable');
+    if(window._kadoh_logger) {
+      var Log = new kadoh.logger.reporter.Console(kadoh.logger.logging, 'debug');
+      kadoh.logger.logging.subscribeTo(this.twitterNode, 'Node');
+      kadoh.logger.logging.subscribeTo(this.twitterNode._reactor, 'Reactor');
+      kadoh.logger.logging.subscribeTo(this.twitterNode._reactor._transport, 'Transport');
+      kadoh.logger.logging.subscribeTo(this.twitterNode._routingTable, 'RoutingTable');
+    }
     that.connectionView.freeze();
 
     this.connectionView.addStateInfo('connecting...');
