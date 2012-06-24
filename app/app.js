@@ -5,7 +5,8 @@ var browserify = require("browserify"),
     jade = require('jade'),
     tagify = require('tagify'),
     fs = require('fs'),
-    uglify = require('uglify-js');
+    uglify = require('uglify-js'),
+    dgram = require('dgram');
 
 //configuation :
 var prod = process.env.NODE_ENV &&
