@@ -54,7 +54,8 @@ function cubeProxy(options) {
       var buf = '';
       req.on('data', function(chunk) { buf += chunk; });
       req.on('end', function() {
-        socket.send(new Buffer(buf), 0, buf.length, port, host);
+        var buffer = new Buffer(buf);
+        socket.send(buffer, 0, buffer.length, port, host);
         res.end();
       });
     } else {
