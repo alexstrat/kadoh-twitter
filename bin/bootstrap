@@ -12,7 +12,7 @@ var argv  = require('optimist')
 
 var debug     = !!argv.debug,
     name      = argv.udp ? 'udpbot'   : 'xmppbot',
-    protocol  = argv.udp ? 'jsonrpc2' : require('kadoh').network.protocol.jsonoverxmlrpc,
+    protocol  = argv.udp ? 'jsonrpc2' : 'node_xmlrpc',
     type      = argv.udp ? 'udp'      : 'xmpp',
     transport = {
       jid       : argv.jid,

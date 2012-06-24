@@ -8,7 +8,7 @@ function createNode() {
     ],
     reactor : {
       type: 'xmpp',
-      protocol: require('kadoh').network.protocol.jsonoverxmlrpc,
+      protocol: 'xmlrpc',
       transport : {
         jid : 'kadoh.fr.nf',
         password : null,
