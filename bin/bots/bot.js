@@ -15,6 +15,7 @@ var Bot = exports.Bot = function(options) {
   options.node.reactor = options.node.reactor || {};
   options.node.reactor.transport = options.node.reactor.transport || {};
   options.node.reactor.transport.reconnect = true;
+  options.node.reactor.protocol = require('kadoh').network.protocol.jsonoverxmlrpc;
   this.kadoh = new Node(null, options.node);
 };
 
