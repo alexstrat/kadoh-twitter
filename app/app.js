@@ -11,7 +11,7 @@ var browserify = require("browserify"),
 //configuation :
 var prod = process.env.NODE_ENV &&
            process.env.NODE_ENV === 'production';
-var transport = 'simudp';
+var transport = 'xmpp';
 
 //client side javascript
 var new_bundle = function() {
@@ -50,17 +50,21 @@ function cubeProxy(options) {
       port = options.port || 1180,
       socket = dgram.createSocket('udp4');
   return function(res, req, next) {
-    var buf = '';
-    req.on('data', function(chunk) { buf += chunk; });
-    req.on('end', function() {
-      socket.send(new Buffer(buf), 0, buf.length, port, host, function(err) {
-        if (err) {
-          res.end(500);
-        } else {
-          res.end(200);
-        }
+    if (req.method === 'POST') {
+      var buf = '';
+      req.on('data', function(chunk) { buf += chunk; });
+      req.on('end', function() {
+        socket.send(new Buffer(buf), 0, buf.length, port, host, function(err) {
+          if (err) {
+            res.end(500);
+          } else {
+            res.end(200);
+          }
+        });
       });
-    });
+    } else {
+      next();
+    }
   };
 }
 
