@@ -2,6 +2,8 @@
 // Bot
 //
 var Node = require(__dirname + '/../../lib/twitter-node');
+var Reporter = require(__dirname + '/../../lib/cube/reporter');
+var emitter = require(__dirname + '/../../lib/cube/emitter-udp')('udp:', 'kadoh-twitter', 1180);
 
 var Bot = exports.Bot = function(options) {
   options = this._options = options || {
@@ -29,6 +31,8 @@ Bot.prototype.start = function() {
 Bot.prototype.connect = function() {
   var self = this;
   this.kadoh.connect(function() {
+    self.reporter = new Reporter(self.kadoh, false, true);
+    self.reporter.start(emitter);
     self.join();
   });
 };
