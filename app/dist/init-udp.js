@@ -16,16 +16,7 @@ var config = {
 };
 
 function createNode() {
-  var node = new KadOH.logic.TwitterNode(undefined, config);
-
-  /*
-  KadOH.log.subscribeTo(node, 'Node');
-  KadOH.log.subscribeTo(node._reactor, 'Reactor');
-  KadOH.log.subscribeTo(node._reactor._transport, 'Transport');
-  KadOH.log.subscribeTo(node._routingTable, 'RoutingTable');
-   */
-
-  return node;
+  return new KadOH.logic.TwitterNode(undefined, config);
 }
 
 window.createNode = createNode;
