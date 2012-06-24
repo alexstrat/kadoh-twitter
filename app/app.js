@@ -49,7 +49,7 @@ function cubeProxy(options) {
   var host = options.host || 'localhost',
       port = options.port || 1180,
       socket = dgram.createSocket('udp4');
-  return function(res, req, next) {
+  return function(req, res, next) {
     if (req.method === 'POST') {
       var buf = '';
       req.on('data', function(chunk) { buf += chunk; });
