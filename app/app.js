@@ -43,12 +43,34 @@ var new_index = function() {
   });
 };
 
+function cubeProxy(options) {
+  options = options || {};
+  var host = options.host || 'localhost',
+      port = options.port || 1180,
+      socket = dgram.createSocket('udp4');
+  return function(res, req, next) {
+    var buf = '';
+    req.on('data', function(chunk) { buf += chunk; });
+    req.on('end', function() {
+      socket.send(new Buffer(buf), 0, buf.length, port, host, function(err) {
+        if (err) {
+          err.status = 500
+          next(err);
+        } else {
+          next();
+        }
+      });
+    });
+  };
+}
+
 //cache
 _cache_bundle = new_bundle();
 _cache_index = new_index();
 
 //connect application
 var app = connect.createServer()
+                 .use('/1.0/event', cubeProxy())
                  .use('/app.js', function(req, res) {
                     res.statusCode = 200;
                     res.setHeader('content-type', 'text/javascript');
