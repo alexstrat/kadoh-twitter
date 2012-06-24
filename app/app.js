@@ -54,8 +54,19 @@ function cubeProxy(options) {
       var buf = '';
       req.on('data', function(chunk) { buf += chunk; });
       req.on('end', function() {
-        var buffer = new Buffer(buf);
-        socket.send(buffer, 0, buffer.length, port, host);
+        try {
+          var buffer;
+          var json = JSON.parse(buf);
+          if (Array.isArray(json)) {
+            for (var i = 0; i < json.length; i++) {
+              buffer = new Buffer(JSON.stringify(json[i]));
+              socket.send(buffer, 0, buffer.length, port, host);
+            }
+          } else {
+            buffer = new Buffer(buf);
+            socket.send(buffer, 0, buffer.length, port, host);
+          }
+        } catch (e) {}
         res.end();
       });
     } else {
