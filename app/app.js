@@ -54,10 +54,9 @@ function cubeProxy(options) {
     req.on('end', function() {
       socket.send(new Buffer(buf), 0, buf.length, port, host, function(err) {
         if (err) {
-          err.status = 500
-          next(err);
+          res.end(500);
         } else {
-          next();
+          res.end(200);
         }
       });
     });
