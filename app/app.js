@@ -39,7 +39,7 @@ var new_index = function() {
     fs.readFileSync(__dirname + '/views/templates/index.jade'));
   return _index({
    transport : transport,
-   reporter : !prod,
+   reporter : prod,
    logger : !prod
   });
 };
