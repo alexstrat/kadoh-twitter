@@ -102,6 +102,8 @@ module.exports = Backbone.Router.extend({
   },
 
   onTweetSubmit: function(text) {
+    if(!text || text.length > 141)
+      return this.tweetForm.infoWrong('Less than 140 characters please..');
     var that = this;
     this.tweetForm.freeze();
     var tweet = new Tweet({

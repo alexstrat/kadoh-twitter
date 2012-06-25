@@ -40,7 +40,7 @@ module.exports = backbone.View.extend({
     return this;
   },
 
-  infoWrong: function() {
-    this.$('.info').html('Something went wrong..');
+  infoWrong: function(text) {
+    this.$('.info').text(text || 'Something went wrong..');
   }
 });
