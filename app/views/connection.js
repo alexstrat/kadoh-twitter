@@ -4,7 +4,7 @@ var backbone = require('backbone-browserify'),
 module.exports = backbone.View.extend({
 
   events: {
-    "submit #form": "onSubmit",
+    "submit form": "onSubmit",
     "click .js-submit": "onSubmit"
   },
 
