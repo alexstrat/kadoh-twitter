@@ -19,7 +19,7 @@ module.exports = backbone.View.extend({
     e.preventDefault();
     var username = this.$('form .username').val();
     var mobile = this.$('form .mobile').prop('checked');
-    if(username.match(/^\s*$/g))
+    if(username.match(/^\s*$/g) || username.length > 20)
       return;
     this.trigger('connection', [username, mobile]);
     this.freeze();
