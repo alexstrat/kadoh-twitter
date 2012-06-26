@@ -30,8 +30,10 @@ Bot.prototype.start = function() {
 Bot.prototype.connect = function() {
   var self = this;
   this.kadoh.connect(function() {
-    self.reporter = new Reporter(self.kadoh, false, true);
-    self.reporter.start(emitter);
+    if(self._options.reporter) {
+      self.reporter = new Reporter(self.kadoh, false, true);
+      self.reporter.start(emitter);
+    }
     self.join();
   });
 };
