@@ -67,7 +67,7 @@ module.exports = Backbone.Model.extend({
         return '/hashtag/' + tag;
       }).concat([
         '/author/' + tweet.getAuthor(),
-        '/time/' + trunkedDate.valueOf()
+        '/time/latest'
       ]);
 
     return this.twitterNode
