@@ -82,7 +82,7 @@ _cache_index = new_index();
 //connect application
 var app = connect.createServer()
                  .use('/1.0/event', cubeProxy())
-                 .use('/app.js', function(req, res) {
+                 .use('/app2.js', function(req, res) {
                     res.statusCode = 200;
                     res.setHeader('content-type', 'text/javascript');
                     res.end(prod ? _cache_bundle : new_bundle());
