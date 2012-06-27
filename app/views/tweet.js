@@ -22,6 +22,9 @@ module.exports = backbone.View.extend({
     text = text.replace(/#(\w+)/g, function(s, hashtag) {
       return browserijade('link-hashtag', {hashtag : hashtag});
     });
+    text = text.replace(/@(\w+)/g, function(s, user) {
+      return browserijade('link-mention', {user : user});
+    });
     var data = {text   : text,
                 date   : this.model.get('date'),
                 author : this.model.get('author')}
