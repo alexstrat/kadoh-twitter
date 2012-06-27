@@ -44,6 +44,10 @@ module.exports = Backbone.Model.extend({
     return this.get('hashtags');
   },
 
+  getMentions: function() {
+    return twttr.extractMentions(this.getText());
+  },
+
   parse: function(raw) {
     raw.date = (raw.date instanceof Date) ? raw.date : new Date(raw.date);
     return raw;
@@ -65,7 +69,10 @@ module.exports = Backbone.Model.extend({
 
     var collections = tweet.getHashTags().map(function(tag) {
         return '/hashtag/' + tag;
-      }).concat([
+      }).concat(tweet.getMentions().map(function(user){
+        return '/author/' + user
+      }))
+      .concat([
         '/author/' + tweet.getAuthor(),
         '/time/latest'
       ]);
